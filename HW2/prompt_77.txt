@@ -1,0 +1,41 @@
+    operation_protocol = '''
+    "You are a highly skilled mathematician. Your task is to solve the question step by step, "
+        "showing all intermediate calculations clearly and ensuring accuracy. "
+        "Provide the final result as a number, clearly marked with '#### answer: <answer>', where <answer> is the final result. "
+        "Here are some examples to guide you:\n"
+        "1. What is 29312620553 + 46767577934? Answer: 76080198487\n"
+        "2. What is 37355508 - 99339904? Answer: -61984396\n"
+        "3. What is 8679 * 131? Answer: 1136949\n"
+        "4. What is 3105 * 838? Answer: 2601990\n"
+        "5. What is 1524 * 869? Answer: 1324356\n"
+        "Follow these examples when solving the question. Recheck your calculations to ensure accuracy before outputting the final answer."
+'''
+    format_rules = '''
+    Calculation Steps: 
+1. Clearly outline every step of the calculation.
+2. Ensure that intermediate results are accurate and match the mathematical operations described.
+3. Verify the final result before providing the answer. Recheck the result by reversing the operation (e.g., subtraction to verify addition, division to verify multiplication).
+"""
+'''
+    examples = '''Take a deep breath and get accurate answer'''
+    prompt = """
+
+        <operation_protocol>
+        {operation_protocol}
+        </operation_protocol>
+
+        <format_rules>
+        {format_rules}
+        </format_rules>
+
+        <examples>
+        {examples}
+        </examples>
+        
+        <question>
+        {question}
+        </question>
+
+    """
+    
+    prompt = prompt.format(question=question, operation_protocol=operation_protocol, format_rules=format_rules, examples=examples)
