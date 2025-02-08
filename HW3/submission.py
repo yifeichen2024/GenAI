@@ -26,9 +26,15 @@ def prepare_data(path):
     '''
     df = pd.read_csv(path)
     df_cleaned = {'Input_Text': [], 'Solution': []}
-    
+    print("load csv success!")
     for k, r in df.iterrows():
-        pass # TODO: Implement this for loop 
+        # TODO: Implement this for loop 
+        num1, num2, operation = r["num1"], r["num2"], r["operation"]
+        op_symbol = OPERATIONS[operation] 
+        question = f"What is {num1} {op_symbol} {num2}?"
+        solution = f'use_calculator({num1}, {num2}, "{operation}")'
+        df_cleaned['Input_Text'].append(question)
+        df_cleaned['Solution'].append(solution)
     
     df_cleaned = pd.DataFrame(df_cleaned)
     return df_cleaned
@@ -46,7 +52,17 @@ def use_calculator(num1, num2, operation):
     
     Consider using if statements to check the operation and perform the correct calculation.
     '''
-    raise NotImplementedError # TODO: implement this function
+    # TODO: implement this function
+    num1, num2 = int(num1), int(num2)
+    
+    if operation == "add":
+        return num1 + num2
+    elif operation == "subtract":
+        return num1 - num2
+    elif operation == "multiply":
+        return num1 * num2
+    else:
+        raise ValueError("Unsupported operation")
 
 def api_key():
     # This function should return your Hugging Face API key.
