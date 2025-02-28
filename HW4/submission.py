@@ -8,17 +8,17 @@ import time
 from tqdm import tqdm
 
 def huggingface_key():
-    key = ''
+    key = '' # Name: DPO 
     return key
 
 def gemini_api_key():
-    key = ''
+    key = '' # 
     return key
 
 def hub_model_name():
     # return the model name in the hf form of "username/model_name"
     # this is case sensitive!
-    model = ''
+    model = 'Harrison321/DPO' 
     return model
 
 def pair_generator(text, model):
@@ -34,8 +34,16 @@ def pair_generator(text, model):
         text: the first four words of the review
         model: the gemini model to use for generation. We will use the gemini-2.0-flash-lite-preview-02-05 model, and you do not need to do anything with this input in this function.
     '''
-    positive_prompt = "YOUR PROMPT HERE" # TODO: fill this in
-    negative_prompt = "YOUR PROMPT HERE" # TODO: fill this in
+    positive_prompt = (
+        f"Given the following starting words: '{text}', "
+        "please generate a short (1-2 sentences) movie review with positive sentiment. "
+        "Do not repeat the input words."
+    ) # TODO: fill this in
+    negative_prompt = (
+        f"Given the following starting words: '{text}', "
+        "please generate a short (1-2 sentences) movie review with negative sentiment. "
+        "Do not repeat the input words."
+    ) # TODO: fill this in
     
     # NO NEED TO EDIT BELOW THIS LINE
     response = model.generate_content(positive_prompt)
@@ -57,7 +65,7 @@ class MyDPOConfig:
     sft_model_cache_dir:    path to cache the model so hf doesnt download it every time
     """
     
-    hf_key: str = '' # put your HF key here
+    hf_key: str = '' # put your HF key here 
     sft_model_name: str = "facebook/opt-350m"
     dpo_dataset_path: str = "imdb_completions_edited.csv" # put the path to your completion data set here. If you chose not to remove the first 4 words of your completions, you can use the imdb_completions.csv file
     sft_adapter_path: str = "sft_models" # do not change this
@@ -70,13 +78,13 @@ class MyDPOConfig:
                               per_device_eval_batch_size=2,
                               num_train_epochs=5,
                               logging_steps=10,
-                              learning_rate=1, # TODO: tune this to a reasonable value
+                              learning_rate=5e-5, # TODO: tune this to a reasonable value
                               eval_strategy="epoch",
                               eval_steps=10,
                               bf16=True,
                               lr_scheduler_type='cosine',
                               warmup_steps=5,
-                              beta=1, # TODO: tune this to a reasonable value
+                              beta=0.3, # TODO: tune this to a reasonable value
                               report_to='none'
                              )
     
